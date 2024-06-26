@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Bus Seat Selection</title>
+   <style>
+      body, html {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          font-family: Roboto, sans-serif;
+          background-image: url(images/seats.jpg);
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+      }
+
+      h2 {
+          text-align: center;
+          margin-top: 10px;
+          color: rgb(12, 2, 2);
+      }
+
+      h2 span {
+          padding: 10px;
+          border: 1px solid black;
+          border-radius: 15px;
+          font-size: 40px;
+      }
+
+      #seatMap {
+          text-align: center;
+          margin-top: 10px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+
+      .seat-column {
+          display: inline-block;
+          vertical-align: top;
+          margin-right: 10px;
+          margin-bottom: 10px;
+      }
+
+      .seat {
+          width: 35px;
+          height: 35px;
+          margin-bottom: 2px;
+          background-color: #d1d6d8;
+          border: 1px solid #999;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          border-color: rgb(0, 0, 0);
+          border: solid;
+          border-width: 2px;
+      }
+
+      .seat.selected {
+          background-color: rgb(20, 182, 104);
+      }
+
+   
+      button:hover {
+          background-color: #45a049;
+      }
+
+      #wheel-img {
+          width: 35px;
+          height: 35px;
+          padding-left: 90px;
+      }
+
+      #wheelMessage {
+          text-align: center;
+          margin-top: 10px;
+          color: red;
+      }
+
+      label {
+          display: block;
+          margin-bottom: 5px;
+          color: #333;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="datetime-local"] {
+          display: none; /* Hide the date and time fields */
+      }
+
+      button{
+        padding: 10px;
+        background-color: rgb(22, 110, 40);
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100px;
+        margin-left: 570px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      h2{
+        font-weight: bold;
+        font-size:50x;
+      }
+     
+   </style>
+</head>
+<body>
+<h2>Select your seat(s)</h2>
+
+<div id="wheelMessage"><img id="wheel-img" src="images/wheel.png" alt=""></div>
+
+<div id="seatMap">
+  <div class="seat-column" id="columnA"></div>
+  <div class="seat-column" id="columnB"></div>
+  <div class="seat-column" id="columnC"></div>
+  <div class="seat-column" id="columnD"></div>
+</div>
+
+ <form id="seatForm" action="summary.html" method="GET">
+
+  <input type="hidden" id="name" name="name" value="">
+  <input type="hidden" id="gender" name="gender" value="">
+  <input type="hidden" id="phone" name="phone" value="">
+  <input type="hidden" id="email" name="email" value="">
+  <input type="hidden" id="busType" name="busType" value="">
+  <input type="hidden" id="dob" name="dob" value="">
+  <input type="hidden" id="time" name="time" value="">
+  <input type="hidden" id="from" name="from" value="">
+  <input type="hidden" id="to" name="to" value="">
+  <input type="hidden" id="selectedSeats" name="selectedSeats" value="">
+  <input type="hidden" id="totalCost" name="totalCost" value="">
+
+  <div class="button-container">
+      <button type="button" onclick="submitSeats()">Submit</button>
+  </div>
+</form>
+
+<script>
+  function validateForm() {
+    return true;
+  }
+
+
+  let selectedSeats = [];
+
+
+  function generateSeatMap() {
+    const columnA = document.getElementById('columnA');
+    const columnB = document.getElementById('columnB');
+    const columnC = document.getElementById('columnC');
+    const columnD = document.getElementById('columnD');
+
+    const seatLetters = ['A', 'B', 'C', 'D'];
+
+    for (let i = 0; i < seatLetters.length; i++) {
+      const letter = seatLetters[i];
+
+      for (let j = 1; j <= 10; j++) {
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        seat.dataset.seat = letter + j;
+        seat.textContent = letter + j;
+        seat.addEventListener('click', toggleSeatSelection);
+
+        if (i === 0) {
+          columnA.appendChild(seat);
+        } else if (i === 1) {
+          columnB.appendChild(seat);
+        } else if (i === 2) {
+          columnC.appendChild(seat);
+        } else if (i === 3) {
+          columnD.appendChild(seat);
+        }
+      }
+    }
+  }
+
+
+  function toggleSeatSelection(event) {
+    const seat = event.target;
+    const isSelected = seat.classList.toggle('selected');
+    const seatData = seat.dataset.seat;
+
+    if (isSelected) {
+      selectedSeats.push(seatData);
+    } else {
+      selectedSeats = selectedSeats.filter(s => s !== seatData);
+    }
+
+
+    document.title = `Bus Seat Selection (${selectedSeats.length} selected)`;
+  }
+
+  
+  function submitSeats() {
+    if (selectedSeats.length > 0) {
+     
+      const costPerSeat = 250;
+      const totalCost = selectedSeats.length * costPerSeat;
+
+    
+      document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
+      document.getElementById('totalCostInput').value = totalCost;
+
+     
+      document.getElementById('userDetailsForm').submit();
+    } else {
+      alert('Please select at least one seat.');
+    }
+  }
+
+
+  window.onload = generateSeatMap;
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById('name').value = params.get('name');
+      document.getElementById('gender').value = params.get('gender');
+      document.getElementById('phone').value = params.get('phone');
+      document.getElementById('email').value = params.get('email');
+      document.getElementById('busType').value = params.get('busType');
+      document.getElementById('dob').value = params.get('dob');
+      document.getElementById('time').value = params.get('time');
+      document.getElementById('from').value = params.get('from');
+      document.getElementById('to').value = params.get('to');
+  });
+
+  let selectedseats = [];
+
+  function toggleSeatSelection(event) {
+      const seat = event.target;
+      const seatNumber = seat.dataset.seat;
+
+      if (selectedSeats.includes(seatNumber)) {
+          selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+          seat.classList.remove('selected');
+      } else {
+          selectedSeats.push(seatNumber);
+          seat.classList.add('selected');
+      }
+  }
+
+  function submitSeats() {
+      document.getElementById('selectedSeats').value = selectedSeats.join(', ');
+      document.getElementById('totalCost').value = selectedSeats.length * 250;
+
+      // Submit the form
+      document.getElementById('seatForm').submit();
+  }
+</script>
+</body>
+</html>

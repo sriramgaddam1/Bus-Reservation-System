@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary</title>
+    <style>
+        body {
+            font-family: Roboto;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            background: url(images/9.jpg);
+            background-size: auto;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: transparent;
+            margin-left: 10px;
+            margin-top: -30px;
+            font-weight: bold;
+        }
+    
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1d1515;
+        }
+    
+        p {
+            margin-bottom: 10px;
+        }
+    
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            margin-left: -200px;
+        }
+    
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
+        h2 {
+            font-size: 30px;
+            margin-left: -450px;
+            color: white;
+            border-color: black;
+            border-width: 2px;
+        }
+    
+        img {
+            width: 100px;
+            height: 50px;
+            position: relative;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section with logo -->
+    <header>
+        <div>
+            <img src="images/buslogo-removebg-preview.png" alt="">
+        </div>
+    </header>
+
+    <!-- Main content container -->
+    <div class="container">
+        <h2>Your Ticket</h2>
+        <!-- Display ticket details dynamically -->
+        <p id="name"></p>
+        <p id="gender"></p>
+        <p id="phone"></p>
+        <p id="email"></p>
+        <p id="busType"></p>
+        <p id="dob"></p>
+        <p id="time"></p>
+        <p id="from"></p>
+        <p id="to"></p>
+        <p id="selectedSeats"></p>
+        <p id="totalCost"></p>
+
+        <div class="button-container">
+            <button onclick="submitData()">Confirm and Submit</button>
+            <button onclick="cancelSeats()">Cancel Seats</button>
+            <button onclick="printSummary()">Print</button>
+        </div>
+    </div>
+
+    <!-- Script section for dynamic data population and form submission -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const params = new URLSearchParams(window.location.search);
+
+            // Populate ticket details from URL parameters
+            document.getElementById('name').textContent = 'Name: ' + params.get('name');
+            document.getElementById('gender').textContent = 'Gender: ' + params.get('gender');
+            document.getElementById('phone').textContent = 'Phone: ' + params.get('phone');
+            document.getElementById('email').textContent = 'Email: ' + params.get('email');
+            document.getElementById('busType').textContent = 'Bus Type: ' + params.get('busType');
+            document.getElementById('dob').textContent = 'Date of Journey: ' + params.get('dob');
+            document.getElementById('time').textContent = 'Time: ' + params.get('time');
+            document.getElementById('from').textContent = 'From: ' + params.get('from');
+            document.getElementById('to').textContent = 'To: ' + params.get('to');
+            document.getElementById('selectedSeats').textContent = 'Selected Seats: ' + params.get('selectedSeats');
+            document.getElementById('totalCost').textContent = 'Total Cost: ₹' + params.get('totalCost');
+        });
+
+        function submitData() {
+            const data = {
+                name: document.getElementById('name').textContent.replace('Name: ', ''),
+                gender: document.getElementById('gender').textContent.replace('Gender: ', ''),
+                phone: document.getElementById('phone').textContent.replace('Phone: ', ''),
+                email: document.getElementById('email').textContent.replace('Email: ', ''),
+                busType: document.getElementById('busType').textContent.replace('Bus Type: ', ''),
+                dob: document.getElementById('dob').textContent.replace('Date of Journey: ', ''),
+                time: document.getElementById('time').textContent.replace('Time: ', ''),
+                from: document.getElementById('from').textContent.replace('From: ', ''),
+                to: document.getElementById('to').textContent.replace('To: ', ''),
+                selectedSeats: document.getElementById('selectedSeats').textContent.replace('Selected Seats: ', ''),
+                totalCost: document.getElementById('totalCost').textContent.replace('Total Cost: ₹', '')
+            };
+
+            fetch('https://script.google.com/macros/s/AKfycbyr9LxjwMyhp0GdQC2ZTZklXMaVEs0Fh3NnL_qdbqx-DLWk7DwBNXfzK9utuUAYW0aT/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(result => {
+                alert('Form data successfully submitted!');
+                // Optionally, redirect to a thank you page or perform other actions after successful submission
+                // window.location.href = 'thankyou.html';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Thank you for Booking!!!! Have a Safe Journey!!!!  ');
+            });
+        }
+
+        function cancelSeats() {
+            document.getElementById('selectedSeats').textContent = 'Selected Seats: 0';
+            document.getElementById('totalCost').textContent = 'Total Cost: ₹0';
+        }
+
+        function printSummary() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

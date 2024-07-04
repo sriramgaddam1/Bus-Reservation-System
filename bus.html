@@ -67,7 +67,6 @@
           background-color: rgb(20, 182, 104);
       }
 
-   
       button:hover {
           background-color: #45a049;
       }
@@ -111,11 +110,48 @@
       button[type="submit"]:hover {
         background-color: #45a049;
       }
+
       h2{
         font-weight: bold;
         font-size:50x;
       }
-     
+
+      @media (max-width: 1200px) {
+          button {
+              margin-left: 50%;
+              transform: translateX(-50%);
+          }
+      }
+
+      @media (max-width: 768px) {
+          .seat {
+              width: 30px;
+              height: 30px;
+              font-size: 10px;
+          }
+
+          #wheel-img {
+              padding-left: 50px;
+          }
+      }
+
+      @media (max-width: 480px) {
+          h2 {
+              font-size: 24px;
+          }
+
+          .seat {
+              width: 25px;
+              height: 25px;
+              font-size: 8px;
+          }
+
+          button {
+              width: 80px;
+              margin-left: 50%;
+              transform: translateX(-50%);
+          }
+      }
    </style>
 </head>
 <body>
@@ -154,9 +190,7 @@
     return true;
   }
 
-
   let selectedSeats = [];
-
 
   function generateSeatMap() {
     const columnA = document.getElementById('columnA');
@@ -189,7 +223,6 @@
     }
   }
 
-
   function toggleSeatSelection(event) {
     const seat = event.target;
     const isSelected = seat.classList.toggle('selected');
@@ -201,28 +234,22 @@
       selectedSeats = selectedSeats.filter(s => s !== seatData);
     }
 
-
     document.title = `Bus Seat Selection (${selectedSeats.length} selected)`;
   }
 
-  
   function submitSeats() {
     if (selectedSeats.length > 0) {
-     
       const costPerSeat = 250;
       const totalCost = selectedSeats.length * costPerSeat;
 
-    
       document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
       document.getElementById('totalCostInput').value = totalCost;
 
-     
       document.getElementById('userDetailsForm').submit();
     } else {
       alert('Please select at least one seat.');
     }
   }
-
 
   window.onload = generateSeatMap;
 </script>
@@ -265,4 +292,4 @@
   }
 </script>
 </body>
-</html> 
+</html>

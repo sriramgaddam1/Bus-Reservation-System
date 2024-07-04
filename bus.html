@@ -67,6 +67,7 @@
           background-color: rgb(20, 182, 104);
       }
 
+   
       button:hover {
           background-color: #45a049;
       }
@@ -110,46 +111,11 @@
       button[type="submit"]:hover {
         background-color: #45a049;
       }
-
-      h2 {
+      h2{
         font-weight: bold;
-        font-size: 50px;
+        font-size:50x;
       }
-
-      /* Media Queries */
-      @media (max-width: 768px) {
-          h2 {
-              font-size: 30px;
-          }
-
-          button {
-              margin-left: 0;
-              width: auto;
-              padding: 10px 20px;
-          }
-
-          #wheel-img {
-              padding-left: 0;
-          }
-      }
-
-      @media (max-width: 480px) {
-          .seat {
-              width: 25px;
-              height: 25px;
-              font-size: 10px;
-          }
-
-          h2 {
-              font-size: 20px;
-          }
-
-          button {
-              margin-left: 0;
-              width: 100%;
-          }
-      }
-
+     
    </style>
 </head>
 <body>
@@ -188,7 +154,9 @@
     return true;
   }
 
+
   let selectedSeats = [];
+
 
   function generateSeatMap() {
     const columnA = document.getElementById('columnA');
@@ -221,6 +189,7 @@
     }
   }
 
+
   function toggleSeatSelection(event) {
     const seat = event.target;
     const isSelected = seat.classList.toggle('selected');
@@ -232,22 +201,28 @@
       selectedSeats = selectedSeats.filter(s => s !== seatData);
     }
 
+
     document.title = `Bus Seat Selection (${selectedSeats.length} selected)`;
   }
 
+  
   function submitSeats() {
     if (selectedSeats.length > 0) {
+     
       const costPerSeat = 250;
       const totalCost = selectedSeats.length * costPerSeat;
 
+    
       document.getElementById('selectedSeatsInput').value = selectedSeats.join(', ');
       document.getElementById('totalCostInput').value = totalCost;
 
+     
       document.getElementById('userDetailsForm').submit();
     } else {
       alert('Please select at least one seat.');
     }
   }
+
 
   window.onload = generateSeatMap;
 </script>
@@ -266,7 +241,7 @@
       document.getElementById('to').value = params.get('to');
   });
 
-  let selectedSeats = [];
+  let selectedseats = [];
 
   function toggleSeatSelection(event) {
       const seat = event.target;
@@ -290,4 +265,4 @@
   }
 </script>
 </body>
-</html>
+</html> 

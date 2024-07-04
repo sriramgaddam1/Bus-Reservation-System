@@ -6,21 +6,24 @@
     <title>Summary</title>
     <style>
         body {
-            font-family: Roboto, sans-serif;
+            font-family: Roboto;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            background: url(images/9.jpg) no-repeat center center fixed;
+            background: url(images/9.jpg);
+            background-size: auto;
             background-size: cover;
+            background-repeat: no-repeat;
         }
     
         .container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: transparent;
+            margin-left: 10px;
+            margin-top: -30px;
+            font-weight: bold;
         }
     
         h2 {
@@ -31,12 +34,13 @@
     
         p {
             margin-bottom: 10px;
-            color: #333;
         }
     
         .button-container {
             text-align: center;
             margin-top: 20px;
+            font-weight: bold;
+            margin-left: -200px;
         }
     
         button {
@@ -54,45 +58,20 @@
             background-color: #45a049;
         }
     
+        h2 {
+            font-size: 30px;
+            margin-left: -450px;
+            color: white;
+            border-color: black;
+            border-width: 2px;
+        }
+    
         img {
             width: 100px;
             height: 50px;
-            display: block;
-            margin: 20px auto 0;
-        }
-
-        /* Media Queries */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-                margin: 30px auto;
-            }
-    
-            h2 {
-                font-size: 24px;
-            }
-    
-            button {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-        }
-    
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-                margin: 20px auto;
-            }
-    
-            h2 {
-                font-size: 20px;
-            }
-    
-            button {
-                padding: 6px 12px;
-                font-size: 12px;
-                margin-right: 5px;
-            }
+            position: relative;
+            margin-top: 10px;
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -100,7 +79,7 @@
     <!-- Header section with logo -->
     <header>
         <div>
-            <img src="images/buslogo-removebg-preview.png" alt="Bus Logo">
+            <img src="images/buslogo-removebg-preview.png" alt="">
         </div>
     </header>
 
@@ -181,7 +160,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Thank you for Booking!!!! Have a Safe Journey!!!!');
+                alert('Thank you for Booking!!!! Have a Safe Journey!!!!  ');
             });
         }
 

@@ -5,34 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bus Selection</title>
     <style>
-        body {
-            font-family: Roboto, sans-serif;
+        body{
+            font-family: Roboto;
             width: 100%;
             height: 100%;
             background-image: url(images/4.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            margin: 0;
-            padding: 0;
         }
-
+    
         .container {
-            max-width: 400px;
+            max-width: 350px;
             padding: 20px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            margin: 0 auto;
-            margin-top: 20px;
+            border-radius: 50px;
+            background:transparent;
+            margin-top:-30px;
+            margin-left: 40px;
         }
-
+    
         label {
-            display: block;
+            display:block;
             margin-bottom: 5px;
-            color: black;
-            font-weight: bold;
+            color:black;
+            font-weight:bold ;
         }
-
+    
         input, select {
             width: 100%;
             padding: 10px;
@@ -41,7 +39,7 @@
             border-radius: 6px;
             box-sizing: border-box;
         }
-
+    
         button {
             padding: 10px;
             background-color: rgb(22, 110, 40);
@@ -50,67 +48,40 @@
             border: none;
             cursor: pointer;
             margin-top: 10px;
-            width: 100%;
+            width: 100px;
+            margin-left: 100px;
         }
-
+    
         button:hover {
             background-color: #45a049;
         }
-
         img {
             width: 100px;
             height: 50px;
-            display: block;
-            margin: 20px auto 0;
+            position: static;
+            margin-top: 20px;
+            margin-left: 10px;
         }
-
-        .bus_title {
-            text-align: center;
-            font-size: 30px;
+        .bus_title{
+            margin-top: 0px;
+            margin-right: 500px;
+            margin-left: 20px;
             margin-bottom: 20px;
-        }
-
-        h2 {
+            font-size:30px;
+          }
+          h2{
             font-size: 30px;
-            text-align: center;
-            margin-top: 0;
-        }
-
-        /* Media Queries */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-                margin-top: 10px;
-            }
-
-            .bus_title, h2 {
-                font-size: 25px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-                margin-top: 5px;
-            }
-
-            .bus_title, h2 {
-                font-size: 20px;
-            }
-
-            button {
-                width: 100%;
-            }
-        }
+            margin-left: 120px;
+          }
     </style>
 </head>
 <body>
     <div class="image">
-        <img src="images/buslogo-removebg-preview.png" alt="Bus Logo">
+        <img src="images/buslogo-removebg-preview.png" alt="">
     </div>
-    <h2> User Selection</h2>
+       <h2> User Selection</h2>
     <div class="container">
-        <form id="selectionForm" action="bus.html" method="GET" onsubmit="return validateForm()">
+        <form id="selectionForm" action="bus.html" method="GET">
             <input type="hidden" id="name" name="name" value="">
             <input type="hidden" id="gender" name="gender" value="">
             <input type="hidden" id="phone" name="phone" value="">
@@ -123,7 +94,7 @@
                 <option value="express">Express</option>
                 <option value="deluxe">Deluxe</option>
                 <option value="superluxury">Super Luxury</option>
-            </select>
+            </select><br>
 
             <label for="dob">Date of Journey:</label>
             <input type="date" id="dob" name="dob" required>
@@ -166,7 +137,6 @@
                 <option value="Warangal (Urban)">Warangal (Urban)</option>
                 <option value="Yadadri-Bhuvanagiri">Yadadri-Bhuvanagiri</option>
             </select>
-
             <label for="to">To:</label>
             <select id="to" name="to" required>
                 <option value="" disabled selected>To</option>
@@ -214,52 +184,62 @@
             document.getElementById('phone').value = params.get('phone');
             document.getElementById('email').value = params.get('email');
         });
-
-        function validateForm() {
-            var from = document.getElementById("from").value;
-            var to = document.getElementById("to").value;
-
-            if (from === to) {
-                alert("From and To places cannot be the same.");
-                return false;
+    </script>
+        <script>
+            function validateForm() {
+                var from = document.getElementById("from").value;
+                var to = document.getElementById("to").value;
+    
+                if (from === to) {
+                    alert("From and To places cannot be the same.");
+                    return false;
+                }
+                return true;
             }
-            return true;
-        }
-
-        function updateToOptions() {
-            var from = document.getElementById("from").value;
-            var toSelect = document.getElementById("to");
-
-            // Enable all options first
-            for (var i = 0; i < toSelect.options.length; i++) {
-                toSelect.options[i].disabled = false;
-            }
-
-            // Disable the selected "From" place in the "To" options
-            for (var i = 0; i < toSelect.options.length; i++) {
-                if (toSelect.options[i].value === from) {
-                    toSelect.options[i].disabled = true;
-                    break;
+    
+            function updateToOptions() {
+                var from = document.getElementById("from").value;
+                var toSelect = document.getElementById("to");
+    
+                // Remove the selected "From" place from the "To" options
+                for (var i = 0; i < toSelect.options.length; i++) {
+                    if (toSelect.options[i].value === from) {
+                        toSelect.remove(i);
+                        break;
+                    }
                 }
             }
-        }
-
-        // Get today's date
-        var today = new Date();
+        </script>
+        <script>
+            // Get today's date
+            var today = new Date();
+            
+            // Format the date to YYYY-MM-DD
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
         
-        // Format the date to YYYY-MM-DD
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-        var yyyy = today.getFullYear();
-    
-        // Concatenate the date parts
-        var minDate = yyyy + '-' + mm + '-' + dd;
+            // Concatenate the date parts
+            today = yyyy + '-' + mm + '-' + dd;
+            
+            // Set the value of the input field to today's date
+            document.getElementById("dob").value = today;
         
-        // Set the minimum date allowed for selection
-        document.getElementById("dob").setAttribute("min", minDate);
-
-        // Set the value of the input field to today's date
-        document.getElementById("dob").value = minDate;
-    </script>
+             </script>
+             <script>
+            // Get today's date
+            var today = new Date();
+            
+            // Format the date to YYYY-MM-DD
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = today.getFullYear();
+        
+            // Concatenate the date parts
+            var minDate = yyyy + '-' + mm + '-' + dd;
+            
+            // Set the minimum date allowed for selection
+            document.getElementById("dob").setAttribute("min", minDate);
+        </script>
 </body>
 </html>
